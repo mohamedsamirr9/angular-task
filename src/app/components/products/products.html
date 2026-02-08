@@ -1,0 +1,60 @@
+<div class="container">
+  <p>{{ date | date }}</p>
+  <p>{{ creditCard | creditCard }}</p>
+  <p>{{ creditCard | hideDigits }}</p>
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <img [src]="store.logo" class="rounded-circle mb-2" />
+    <h1>{{ store.name }} Store</h1>
+    <h5>{{ storeOwner }}</h5>
+  </div>
+
+  <form class="my-2 my-lg-0 d-flex justify-content-between align-items-center">
+    <input
+      class="form-control w-25"
+      [(ngModel)]="searchTerm"
+      name="search"
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+    />
+
+    <select class="form-control w-25" [(ngModel)]="selectedCategory" name="category">
+      <option value="0">All</option>
+      <option value="1">Adventure</option>
+      <option value="2">Action</option>
+      <option value="3">Comedy</option>
+    </select>
+  </form>
+
+  <div class="container mt-3">
+    <div class="row">
+      @for (product of filteredProducts; track $index) {
+        <div class="col-md-4 mb-3">
+          <app-product
+            [product]="product"
+            (increase)="increase($event)"
+            (show)="showDet($event)"
+          ></app-product>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+@if (showDetails) {
+  <div
+    class="modal-backdrop w-25 h-50 mx-auto"
+    style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+  >
+    <div class="modal-content d-flex justify-content-center align-items-center text-white">
+      <h3>{{ selectedProduct?.name }}</h3>
+      <img
+        [src]="selectedProduct?.img"
+        class="img-fluid"
+        style="height: 200px; object-fit: cover"
+      />
+      <p>Price: {{ selectedProduct?.price | currency: 'EGP' }}</p>
+      <p>Quantity: {{ selectedProduct?.quantity }}</p>
+      <button class="btn btn-secondary" (click)="close()">Close</button>
+    </div>
+  </div>
+}
