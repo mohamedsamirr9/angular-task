@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <!-- Header -->
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="mb-0">Product Details</h3>
+        <button class="btn btn-outline-secondary btn-sm" (click)="back()">← Back</button>
+      </div>
+
+      <hr />
+
+      @if (!product) {
+        <div class="alert alert-danger text-center">Product not found</div>
+      } @else {
+        <div class="row g-4 align-items-center">
+          <!-- Image -->
+          <div class="col-12 col-md-5 text-center">
+            <img
+              [src]="product.img"
+              class="img-fluid rounded shadow-sm"
+              style="max-height: 300px; object-fit: cover"
+            />
+          </div>
+
+          <!-- Details -->
+          <div class="col-12 col-md-7">
+            <h4 class="mb-3">{{ product.name }}</h4>
+
+            <div class="mb-2">
+              <span class="fw-bold">Product ID:</span>
+              {{ product.id }}
+            </div>
+
+            <div class="mb-2">
+              <span class="fw-bold">Price:</span>
+              {{ product.price | currency: 'EGP' }}
+            </div>
+
+            <div class="mb-2">
+              <span class="fw-bold">Category:</span>
+              {{ product.cateogryID }}
+            </div>
+
+            <div class="mb-3">
+              <span class="fw-bold">Availability:</span>
+              <span>
+                {{ product.quantity > 0 ? 'In Stock' : 'Out of Stock' }}
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <span class="fw-bold">Quantity:</span>
+              {{ product.quantity }}
+            </div>
+
+            <button class="btn btn-primary" [disabled]="product.quantity === 0">Add to Cart</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

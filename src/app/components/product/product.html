@@ -1,5 +1,10 @@
-<div appRoundedShadow class="card" style="width: 18rem">
-  <img class="card-img-top w-100" [src]="product.img" alt="Card image cap" />
+<div appRoundedShadow appHoverCard class="card" style="width: 18rem">
+  <img
+    class="card-img-top w-100"
+    [src]="product.img"
+    alt="Card image cap"
+    (click)="goToDetails()"
+  />
   <div class="card-body">
     <h5 class="card-title">{{ product.name }}</h5>
     <p class="card-text">Quantity : {{ product.quantity }}</p>
@@ -26,10 +31,14 @@
         class="btn btn-primary"
         [disabled]="product.quantity === 0"
         (click)="increaseStatus()"
+        ;
+        $event.stopPropagation()
       >
         Buy
       </button>
-      <button class="btn btn-success" (click)="showDet()">Details</button>
+      <button class="btn btn-success" (click)="showDet()" ; $event.stopPropagation()>
+        Details
+      </button>
     </div>
   </div>
 </div>
