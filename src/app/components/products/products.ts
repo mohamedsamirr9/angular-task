@@ -1,40 +1,58 @@
-import { Component } from '@angular/core';
-import { Store } from '../../models/store';
+import { Component, SimpleChanges, OnInit, OnChanges, Input } from '@angular/core';
 import { IProduct } from '../../models/iproduct';
-import { FormsModule } from '@angular/forms';
-import { RoundedShadow } from '../../direcrives/rounded-shadow';
+import { Store } from '../../models/store';
+import { ProductsService } from '../../services/products-service';
 import { CommonModule } from '@angular/common';
 import { CreditCardPipe } from '../../pipes/credit-card-pipe';
 import { HideDigitsPipe } from '../../pipes/hide-digits-pipe';
 import { Product } from '../product/product';
-import { ProductsService } from '../../services/products-service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
-  imports: [FormsModule, CommonModule, CreditCardPipe, HideDigitsPipe, Product],
   templateUrl: './products.html',
-  styleUrl: './products.css',
+  imports: [CommonModule, CreditCardPipe, HideDigitsPipe, Product, FormsModule],
+  styleUrls: ['./products.css'],
 })
 export class Products {
-  showDetails = false;
-  selectedProduct: IProduct | null = null;
+  @Input() searchTerm: string = '';
+  @Input() selectedCategory: number = 0;
   date = new Date();
   creditCard = '1234567812345678';
-
+  filteredProducts: IProduct[] = [];
+  showDetails = false;
+  selectedProduct: IProduct | null = null;
   store = new Store('Book', ['Cairo', 'Alex', 'Mansoura'], 'images/logo.jfif');
   storeOwner = 'Mohamed Samir';
-  constructor(private productService: ProductsService) {}
+
+  constructor(public productService: ProductsService) {}
+  ngOnInit() {
+    this.filteredProducts = this.productService.filteredProducts;
+    this.applyfilteredProducts();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['searchTerm'] || changes['selectedCategory']) {
+      this.applyfilteredProducts();
+    }
+  }
+
+  applyfilteredProducts() {
+    this.productService.searchTerm = this.searchTerm;
+    this.productService.selectedCategory = this.selectedCategory;
+    this.filteredProducts = this.productService.filteredProducts;
+  }
+
   showDet(product: IProduct) {
     this.selectedProduct = product;
     this.showDetails = true;
   }
+
   close() {
     this.showDetails = false;
   }
-  get filteredProducts(): IProduct[] {
-    return this.productService.filteredProducts;
-  }
-  increase() {
-    this.productService.increase;
+
+  increase(event: any) {
+    this.productService.increase(event);
   }
 }

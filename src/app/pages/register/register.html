@@ -1,0 +1,109 @@
+<div class="page-content">
+  <div class="form-v5-content">
+    <form class="form-detail" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+      <h2>Register Account Form</h2>
+      <div class="form-row">
+        <label for="full-name">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          class="input-text"
+          placeholder="Your Name"
+          formControlName="name"
+          [class.is-valid]="formRegister.get('name')?.valid && formRegister.get('name')?.touched"
+        />
+        @if (formRegister.get('name')?.invalid && formRegister.get('name')?.touched) {
+          <div class="text-danger">Name is required and Name must be at least 5 characters</div>
+        }
+        <i class="fas fa-user"></i>
+      </div>
+      <div formArrayName="phones" class="form-row">
+        @for (phone of phones.controls; track $index) {
+          <div class="d-flex gap-2 mb-2">
+            <input
+              [formControlName]="$index"
+              type="text"
+              class="form-control"
+              placeholder="Mobile Number"
+            />
+
+            <button type="button" class="btn btn-danger" (click)="removeMobile($index)">
+              Remove
+            </button>
+          </div>
+          @if (phones.at($index)?.invalid && phones.at($index)?.touched) {
+            <div class="text-danger">
+              Mobile number is required and must be a valid Egyptian number
+            </div>
+          }
+        }
+      </div>
+
+      <button type="button" class="btn btn-secondary mb-2" (click)="addMobile()">
+        Add another mobile
+      </button>
+
+      <div class="form-row">
+        <label for="your-email">Your Email</label>
+        <input
+          type="text"
+          name="email"
+          class="input-text"
+          placeholder="Your Email"
+          formControlName="email"
+          [class.is-valid]="formRegister.get('email')?.valid && formRegister.get('email')?.touched"
+        />
+        <i class="fas fa-envelope"></i>
+        @if (formRegister.get('email')?.invalid && formRegister.get('email')?.touched) {
+          <div class="text-danger">Email is required and must be valid</div>
+        }
+      </div>
+      <div class="form-row">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="input-text"
+          placeholder="Your Password"
+          formControlName="password"
+          required
+          [class.is-valid]="
+            formRegister.get('password')?.valid && formRegister.get('password')?.touched
+          "
+        />
+        @if (formRegister.get('password')?.invalid && formRegister.get('password')?.touched) {
+          <div class="text-danger">
+            Password is required and Password must be at least 6 characters
+          </div>
+        }
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="form-row">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          class="input-text"
+          placeholder="confirmPassword"
+          formControlName="confirmPassword"
+          required
+          [class.is-valid]="
+            formRegister.get('confirmPassword')?.valid &&
+            formRegister.get('confirmPassword')?.touched
+          "
+        />
+        @if (
+          formRegister.get('confirmPassword')?.invalid &&
+          formRegister.get('confirmPassword')?.touched
+        ) {
+          <div class="text-danger">password is required and must be match</div>
+        }
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="form-row-last d-flex justify-content-between">
+        <input type="submit" class="register" value="Register" [disabled]="formRegister.invalid" />
+        <input type="button" class="register" value="Clear" (click)="onReset()" />
+      </div>
+    </form>
+  </div>
+</div>

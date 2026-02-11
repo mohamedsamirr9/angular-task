@@ -1,4 +1,8 @@
 <app-nav></app-nav>
+@if (showClock) {
+  <app-clock></app-clock>
+}
+<button class="btn btn-primary" (click)="onToggleClock()">Toggle Time</button>
 <div class="container py-4">
   <router-outlet></router-outlet>
 </div>

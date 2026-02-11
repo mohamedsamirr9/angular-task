@@ -2,13 +2,19 @@ import { Component, signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Products } from './components/products/products';
 import { Nav } from './components/nav/nav';
+import { Clock } from './components/clock/clock';
+import { ProductsParent } from './components/products-parent/products-parent';
 
 @Component({
   selector: 'app-root',
-  imports: [Products, RouterModule, Nav],
+  imports: [Products, RouterModule, Nav, Clock, ProductsParent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('project');
+  showClock: boolean = true;
+  onToggleClock() {
+    this.showClock = !this.showClock;
+  }
 }
