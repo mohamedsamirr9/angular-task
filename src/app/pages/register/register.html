@@ -3,11 +3,11 @@
     <form class="form-detail" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
       <h2>Register Account Form</h2>
       <div class="form-row">
-        <label for="full-name">Full Name</label>
+        <label for="full-name" class="form-label">Full Name</label>
         <input
           type="text"
           name="name"
-          class="input-text"
+          class="form-control mb-2"
           placeholder="Your Name"
           formControlName="name"
           [class.is-valid]="formRegister.get('name')?.valid && formRegister.get('name')?.touched"
@@ -44,11 +44,11 @@
       </button>
 
       <div class="form-row">
-        <label for="your-email">Your Email</label>
+        <label for="your-email" class="form-label">Your Email</label>
         <input
           type="text"
           name="email"
-          class="input-text"
+          class="form-control"
           placeholder="Your Email"
           formControlName="email"
           [class.is-valid]="formRegister.get('email')?.valid && formRegister.get('email')?.touched"
@@ -59,11 +59,11 @@
         }
       </div>
       <div class="form-row">
-        <label for="password">Password</label>
+        <label for="password" class="form-label">Password</label>
         <input
           type="password"
           name="password"
-          class="input-text"
+          class="form-control"
           placeholder="Your Password"
           formControlName="password"
           required
@@ -79,11 +79,11 @@
         <i class="fas fa-lock"></i>
       </div>
       <div class="form-row">
-        <label for="password">Password</label>
+        <label for="password" class="form-label">Password</label>
         <input
           type="password"
           name="confirmPassword"
-          class="input-text"
+          class="form-control"
           placeholder="confirmPassword"
           formControlName="confirmPassword"
           required
@@ -105,5 +105,22 @@
         <input type="button" class="register" value="Clear" (click)="onReset()" />
       </div>
     </form>
+    @if (submittedData) {
+      <div class="card mt-4 shadow">
+        <div class="card-body">
+          <h4 class="card-title mb-3">User Data</h4>
+
+          <p><strong>Name:</strong> {{ submittedData.name }}</p>
+          <p><strong>Email:</strong> {{ submittedData.email }}</p>
+
+          <p><strong>Phones:</strong></p>
+          <ul>
+            @for (phone of submittedData.phones; track $index) {
+              <li>{{ phone }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
   </div>
 </div>

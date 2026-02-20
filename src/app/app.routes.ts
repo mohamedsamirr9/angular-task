@@ -7,6 +7,8 @@ import { Contact } from './pages/contact/contact';
 import { Register } from './pages/register/register';
 import { Login } from './pages/login/login';
 import { ProductsParent } from './components/products-parent/products-parent';
+import { ProductsFake } from './components/products-fake/products-fake';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -15,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    component: ProductsParent,
+    component: ProductsFake,
   },
   {
     path: 'products/:id',
@@ -29,8 +31,8 @@ export const routes: Routes = [
     path: 'contact',
     component: Contact,
   },
-  { path: 'register', component: Register },
-  { path: 'login', component: Login },
+  { path: 'register', component: Register, canActivate: [authGuard] },
+  { path: 'login', component: Login, canActivate: [authGuard] },
 
   {
     path: '**',

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -10,15 +11,31 @@ import { RouterModule } from '@angular/router';
 })
 export class Login {
   formRegister!: FormGroup;
-  constructor() {
+  errMessage: string = '';
+  constructor(
+    private auth: Auth,
+    private router: Router,
+  ) {
     this.formRegister = new FormGroup({
-      email: new FormControl('', [(Validators.required, Validators.email)]),
+      username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
   onSubmit() {
-    console.log(this.formRegister.value);
+    if (this.formRegister.valid) {
+      this.auth
+        .login(this.formRegister.value.username, this.formRegister.value.password)
+        .subscribe({
+          next: (res) => {
+            this.router.navigate(['/products']);
+          },
+          error: (err) => {
+            this.errMessage = err.error.message;
+          },
+        });
+    }
   }
+
   onReset() {
     this.formRegister.reset();
   }

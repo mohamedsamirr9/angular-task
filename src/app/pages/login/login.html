@@ -3,20 +3,23 @@
     <form class="form-detail" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
       <h2>Login Account Form</h2>
       <div class="form-row">
-        <label for="your-email">Your Email</label>
+        <label for="username">Username</label>
         <input
           type="text"
-          name="email"
+          name="username"
           class="input-text"
-          placeholder="Your Email"
-          formControlName="email"
-          [class.is-valid]="formRegister.get('email')?.valid && formRegister.get('email')?.touched"
+          placeholder="Your Username"
+          formControlName="username"
+          [class.is-valid]="
+            formRegister.get('username')?.valid && formRegister.get('username')?.touched
+          "
         />
-        <i class="fas fa-envelope"></i>
-        @if (formRegister.get('email')?.invalid && formRegister.get('email')?.touched) {
-          <div class="text-danger">Email is required and must be valid</div>
+
+        @if (formRegister.get('username')?.invalid && formRegister.get('username')?.touched) {
+          <div class="text-danger">Username is required and must be at least 3 characters</div>
         }
       </div>
+
       <div class="form-row">
         <label for="password">Password</label>
         <input
@@ -38,10 +41,17 @@
         <i class="fas fa-lock"></i>
       </div>
 
+      @if (errMessage) {
+        <div class="text-danger text-center mt-3">{{ errMessage }}</div>
+      }
       <div class="form-row-last d-flex justify-content-between">
-        <input type="submit" class="register" value="Register" [disabled]="formRegister.invalid" />
+        <input type="submit" class="register" value="Register" />
         <input type="button" class="register" value="Clear" (click)="onReset()" />
       </div>
     </form>
   </div>
 </div>
+
+<!-- formControlName="email"
+          [class.is-valid]="formRegister.get('email')?.valid && formRegister.get('email')?.touched" -->
+<!-- [disabled]="formRegister.invalid" -->

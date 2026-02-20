@@ -17,6 +17,8 @@ import { RouterModule } from '@angular/router';
 })
 export class Register {
   formRegister!: FormGroup;
+  submittedData: any = null;
+
   constructor() {
     this.formRegister = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -43,10 +45,14 @@ export class Register {
     }
   }
   onSubmit() {
-    console.log(this.formRegister.value);
+    if (this.formRegister.valid) {
+      this.submittedData = this.formRegister.value;
+      console.log(this.submittedData);
+    }
   }
   onReset() {
     this.formRegister.reset();
+    this.submittedData = null;
   }
   matchPassword = (control: FormControl): { [key: string]: boolean } | null => {
     const password = control.parent?.get('password')?.value;
